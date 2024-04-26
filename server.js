@@ -79,7 +79,5 @@ io.on("connection", (socket) => {
 });
 
 db.sequelize.sync().then(() => {
-  http.listen(PORT, () => {
-    console.log(`Server start http://localhost:${PORT}`);
-  });
+  http.listen(PORT, () => console.log("server start"));
 });
