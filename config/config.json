@@ -8,17 +8,17 @@
   },
 
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "ug9n8mwtvkstuoem",
+    "password": "uT4OZ5i086lnthnUqnFq",
+    "database": "bmio2sfec8bvdu9nhwpb",
+    "host": "bmio2sfec8bvdu9nhwpb-mysql.services.clever-cloud.com",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "ug9n8mwtvkstuoem",
+    "password": "uT4OZ5i086lnthnUqnFq",
+    "database": "bmio2sfec8bvdu9nhwpb",
+    "host": "bmio2sfec8bvdu9nhwpb-mysql.services.clever-cloud.com",
     "dialect": "mysql"
   }
 }
