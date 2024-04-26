@@ -74,8 +74,9 @@ class authController {
       const token = generateAccessToken(candidate.account_id);
       const oneHour = 3600000;
       res.cookie("accessToken", token, {
-        maxAge: oneHour * 5,
-        // sameSite: "None", // Permit trimiterea cookie-ului către origini diferite
+        httpOnly: true,
+        maxAge: oneHour * 24,
+        sameSite: "None", // Permit trimiterea cookie-ului către origini diferite
         secure: true, // Asigură transmiterea cookie-ului doar prin HTTPS
         // path: "/", // Cookie-ul este valabil pe întregul domeniu
       });
