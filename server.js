@@ -6,6 +6,7 @@ const db = require("./models");
 const { Rooms, Users } = require("./models");
 const { Messages } = require("./models");
 const app = express();
+app.use(cookieParser());
 const PORT = process.env.SERVER_PORT || 3008;
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
@@ -22,7 +23,6 @@ app.use(
     credentials: true,
   }),
 );
-app.use(cookieParser());
 
 // Routers
 const userRouter = require("./routes/Users");
@@ -79,5 +79,5 @@ io.on("connection", (socket) => {
 });
 
 db.sequelize.sync().then(() => {
-  http.listen(PORT, () => console.log("server start"));
+  http.listen(PORT, () => console.log(`server start on port ${PORT}`));
 });
