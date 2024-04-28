@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const db = require("./models");
 const { Rooms, Users } = require("./models");
 const { Messages } = require("./models");
-const path = require("path");
 const app = express();
 app.use(cookieParser());
 const PORT = process.env.SERVER_PORT || 3008;
@@ -34,12 +33,9 @@ app.use("/users", userRouter); // Aplică userRouter pe app pentru rutele legate
 app.use("/rooms", roomRouter); // Aplică roomRouter pe app pentru rutele legate de camere
 app.use("/auth", authRouter); // raspunde pentru autorizarea utilizatorului
 
-// Configurarea statică pentru fișierele de frontend
-app.use(express.static(path.join(__dirname, "build")));
-
 // Endpoint pentru toate rutele care nu sunt găsite
 app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.redirect("https://client-falb.onrender.com");
 });
 
 io.on("connection", (socket) => {
