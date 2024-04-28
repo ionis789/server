@@ -35,11 +35,11 @@ app.use("/rooms", roomRouter); // Aplică roomRouter pe app pentru rutele legate
 app.use("/auth", authRouter); // raspunde pentru autorizarea utilizatorului
 
 // Configurarea statică pentru fișierele de frontend
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "build")));
 
 // Endpoint pentru toate rutele care nu sunt găsite
 app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 io.on("connection", (socket) => {
