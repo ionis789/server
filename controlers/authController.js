@@ -76,7 +76,7 @@ class authController {
       res.cookie("accessToken", token, {
         httpOnly: true,
         maxAge: oneHour * 24,
-        sameSite: "None", // Permit trimiterea cookie-ului către origini diferite
+        // sameSite: "None", // Permit trimiterea cookie-ului către origini diferite
         secure: true, // Asigură transmiterea cookie-ului doar prin HTTPS
         // path: "/", // Cookie-ul este valabil pe întregul domeniu
       });
