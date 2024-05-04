@@ -12,12 +12,11 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
     origin: true,
-    credentials: true,
   },
 });
 app.use(express.json()); // Folosește express.json() pentru a gestiona JSON body requests
 app.use(
-  // Aplic middleware-ul cors() pe app cu in asa fel permit cookie si comunicarea cu serverul de pe orice orice host din partea la client
+  // Aplic middleware-ul cors() pe app cu in asa fel permit cookie si comunicarea cu serverul de pe orice host din partea la client
   cors({
     origin: true,
     credentials: true,
@@ -60,11 +59,11 @@ io.on("connection", (socket) => {
   });
   socket.on("create_room", async ({ loggedUserID, userCompanionID }) => {
     try {
-      const createdRoom = await Rooms.create({
+      await Rooms.create({
         user_a: loggedUserID,
         user_b: userCompanionID,
       });
-      const userCompanionInfo = await Users.findOne({
+      await Users.findOne({
         where: {
           user_id: userCompanionID,
         },

@@ -1,12 +1,10 @@
 const { Accounts, Users } = require("../models");
-require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator"); // functia ce returneaza erorile(un array) in urma validatiei facuta in authRouter
 const jwt = require("jsonwebtoken");
 const generateAccessToken = (id) => {
-  const JWT_KEY = process.env.JWT_KEY;
   const payload = { id };
-  return jwt.sign(payload, JWT_KEY, { expiresIn: "24h" });
+  return jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "24h" });
 };
 
 class authController {
@@ -70,17 +68,12 @@ class authController {
         });
       }
 
+      console.log(process.env.JWT_KEY)
+
       //generate access token
-      const token = generateAccessToken(candidate.account_id);
-      const oneHour = 3600000;
-      res.cookie("accessToken", token, {
-        httpOnly: true,
-        maxAge: oneHour * 24,
-        // sameSite: "None", // Permit trimiterea cookie-ului către origini diferite
-        secure: true, // Asigură transmiterea cookie-ului doar prin HTTPS
-        // path: "/", // Cookie-ul este valabil pe întregul domeniu
-      });
+      const accessToken = generateAccessToken(candidate.account_id);
       res.status(200).json({
+        accessToken,
         loggedUserID: candidate.account_id,
         loggedUserName: candidate.name,
         loggedUserMail: candidate.mail,
