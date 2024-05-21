@@ -40,15 +40,16 @@ app.get("/*", (req, res) => {
 io.on("connection", (socket) => {
   console.log(`User ${socket.id} has connected 🤝`);
 
-  socket.on("join_room", (roomID) => {
-    if (!roomID.isEmpty) {
-      roomID.forEach((rID) => {
-        socket.join(rID);
+  // stable connectivity between currentLoggedUsers and his rooms
+  socket.on("join_room", (roomIDs) => {
+    if (!roomIDs.isEmpty) {
+      roomIDs.forEach((IDs) => {
+        socket.join(IDs);
       });
     }
   });
 
-  // Eveniment pentru trimiterea unui mesaj
+  // new message event
   socket.on("send_message", async (messageData, roomID) => {
     try {
       const newMessage = await Messages.create(messageData);
@@ -57,26 +58,33 @@ io.on("connection", (socket) => {
       console.error("Error sending message:", error);
     }
   });
+
+  // create new room event
   socket.on("create_room", async ({ loggedUserID, userCompanionID }) => {
     try {
-      await Rooms.create({
+      const newRoom = await Rooms.create({
         user_a: loggedUserID,
         user_b: userCompanionID,
       });
-      await Users.findOne({
+      const newCompanion = await Users.findOne({
         where: {
           user_id: userCompanionID,
         },
       });
       io.emit("new_room", {
         status: 1,
+        newRoomData: {
+          messages: [],
+          roomID: newRoom.dataValues.room_id,
+          userCompanionInfo: newCompanion.dataValues,
+        },
       });
     } catch (error) {
-      io.emit("new_room", { status: 0 });
+      io.emit("new_room", { status: 0, error });
     }
   });
 
-  // Eveniment pentru deconectarea unui client
+  // disconnect user from site event
   socket.on("disconnect", () => {
     console.log(`User ${socket.id} has disconnected 👋`);
   });
